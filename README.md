@@ -15,4 +15,11 @@ It loads 25 items by default
 
 ## Installation
 
-To run the project, you need to install [cocoapods](https://cocoapods.org/) and XCode 7. After downloading the project you will need to run pod install
+Steps:
+
+1. Clone the project from this repository
+2. Install [cocoapods](https://cocoapods.org/) if not installed
+3. Xcode7 if not installed
+4. Go to project folder and run 'pod install' cocoapods command
+5. Open project workspace and build GifListApp target
+6. Enjoy the gifs!
