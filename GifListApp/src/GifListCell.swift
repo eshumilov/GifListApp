@@ -24,6 +24,8 @@ class GifListCell: UITableViewCell {
         
         let views = ["aimatedImageView": aimatedImageView]
         self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-5-[aimatedImageView]-5-|", options: .AlignAllLeft, metrics: nil, views: views))
-        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-5-[aimatedImageView(==80)]", options: .AlignAllLeft, metrics: nil, views: views))
+        self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("[aimatedImageView(==80)]", options: .AlignAllLeft, metrics: nil, views: views))
+        
+        self.addConstraint(NSLayoutConstraint(item: aimatedImageView, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0))
     }
 }

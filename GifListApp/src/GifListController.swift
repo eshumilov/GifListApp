@@ -25,6 +25,7 @@ class GifListViewController: UIViewController, UITableViewDataSource, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.separatorStyle = .None
         tableView.dataSource = self
         tableView.delegate = self
         self.view.addSubview(tableView)

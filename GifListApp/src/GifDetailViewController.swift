@@ -44,13 +44,13 @@ class GifDetailViewController: UIViewController {
         self.view.addSubview(smsButton)
         smsButton.translatesAutoresizingMaskIntoConstraints = false
         
-        let metrics = ["buttonTopOffset": 60, "space1": 20, "space2": 10, "buttonWidth": 170, "buttonHeight": 20,]
+        let metrics = ["buttonTopOffset": 60, "space1": 20, "space2": 10, "buttonWidth": 150, "buttonHeight": 20,]
         
         self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-buttonTopOffset-[copyButton(==buttonHeight)]-space2-[imageView]-space1-|", options: .AlignAllLeft, metrics: metrics, views: views))
         
         self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[smsButton(==buttonHeight)]", options: .AlignAllLeft, metrics: metrics, views: views))
         
-        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-space1-[imageView]-space1-|", options: .AlignAllLeft, metrics: metrics, views: views))
+        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-space2-[imageView]-space2-|", options: .AlignAllLeft, metrics: metrics, views: views))
         
         self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("[copyButton(==buttonWidth)]-[smsButton(==buttonWidth)]", options: .AlignAllLastBaseline, metrics: metrics, views: views))
     }
