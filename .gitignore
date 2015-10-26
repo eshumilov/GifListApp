@@ -1,0 +1,7 @@
+*.xcworkspace
+GifListApp.xcworkspace/xcshareddata/GifListApp.xccheckout
+xcuserdata
+*.xcbkptlist
+.DS_Store
+Pods/
+!GifListApp.xcworkspace
