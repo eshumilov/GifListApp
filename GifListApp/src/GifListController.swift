@@ -83,7 +83,7 @@ class GifListViewController: UIViewController, UITableViewDataSource, UITableVie
     private func searchWithTerm(term: String) {
         let loader = GifListLoader()
         loader.searchItems(term, completion: { (gifs: [GifDescription]) -> () in
-            if loader == self.loader {
+            if loader == self.loader && self.resultSearchController.active {
                 self.foundGifs = gifs
                 self.tableView.reloadData()
             }
