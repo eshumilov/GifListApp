@@ -19,8 +19,14 @@ class GifListViewController: UIViewController, UITableViewDataSource, UITableVie
     var foundGifs: [GifDescription] = []
     var loader: GifListLoader?
     
+    var toDispose: Disposable?
+    
     private lazy var tableView = UITableView()
     private lazy var resultSearchController = UISearchController(searchResultsController: nil)
+    
+    deinit {
+        toDispose?.dispose()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +50,7 @@ class GifListViewController: UIViewController, UITableViewDataSource, UITableVie
         resultSearchController.searchBar.sizeToFit()
         tableView.tableHeaderView = resultSearchController.searchBar
         
-        resultSearchController.searchBar.rx_text
+        toDispose = resultSearchController.searchBar.rx_text
             .subscribeNext { [unowned self] searchText in
                 self.searchWithTerm(searchText)
         }
