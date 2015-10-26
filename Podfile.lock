@@ -1,0 +1,29 @@
+PODS:
+  - Alamofire (3.1.0)
+  - RxBlocking (2.0.0-beta.1):
+    - RxSwift (~> 2.0.0-beta)
+  - RxCocoa (2.0.0-beta.1):
+    - RxSwift (~> 2.0.0-beta)
+  - RxSwift (2.0.0-beta.1)
+  - SDWebImage (3.7.3):
+    - SDWebImage/Core (= 3.7.3)
+  - SDWebImage/Core (3.7.3)
+  - SwiftyJSON (2.3.1)
+
+DEPENDENCIES:
+  - Alamofire (~> 3.0)
+  - RxBlocking (~> 2.0.0-beta)
+  - RxCocoa (~> 2.0.0-beta)
+  - RxSwift (~> 2.0.0-beta)
+  - SDWebImage
+  - SwiftyJSON
+
+SPEC CHECKSUMS:
+  Alamofire: 415bd7f56197722978759078486689f7ef913dce
+  RxBlocking: db06b6f8ea08b35b8b5bcd325389f73af3e94716
+  RxCocoa: a3c35a39c3b4e8175f271bd3a28be8ca52f97c93
+  RxSwift: a9b0f4d876eac130cda0ae2f3fba627be3baf3ef
+  SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
+  SwiftyJSON: 592b53bee5ef3dd9b3bebc6b9cb7ee35426ae8c3
+
+COCOAPODS: 0.38.2
