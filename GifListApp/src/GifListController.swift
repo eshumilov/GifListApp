@@ -19,21 +19,15 @@ class GifListViewController: UIViewController, UITableViewDataSource, UITableVie
     var foundGifs: [GifDescription] = []
     var loader: GifListLoader?
     
-    var toDispose: Disposable?
+    var disposeBag = DisposeBag()
     
     private lazy var tableView = UITableView()
     private lazy var resultSearchController = UISearchController(searchResultsController: nil)
-    
-    deinit {
-        toDispose?.dispose()
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.separatorStyle = .None
-        tableView.dataSource = self
-        tableView.delegate = self
         self.view.addSubview(tableView)
         
         tableView.registerClass(GifListCell.self, forCellReuseIdentifier: cellID)
@@ -50,10 +44,22 @@ class GifListViewController: UIViewController, UITableViewDataSource, UITableVie
         resultSearchController.searchBar.sizeToFit()
         tableView.tableHeaderView = resultSearchController.searchBar
         
-        toDispose = resultSearchController.searchBar.rx_text
+        resultSearchController.searchBar.rx_text
             .subscribeNext { [unowned self] searchText in
                 self.searchWithTerm(searchText)
-        }
+            }.addDisposableTo(disposeBag)
+        
+        tableView.rx_setDataSource(self)
+            .addDisposableTo(disposeBag)
+        
+        tableView.rx_setDelegate(self)
+            .addDisposableTo(disposeBag)
+        
+        tableView.rx_itemSelected
+            .subscribeNext { [unowned self] indexPath in
+                self.showDetailsForIndex(indexPath.row)
+            }
+            .addDisposableTo(disposeBag)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -85,22 +91,21 @@ class GifListViewController: UIViewController, UITableViewDataSource, UITableVie
         loader.searchItems(term, completion: { (gifs: [GifDescription]) -> () in
             if loader == self.loader && self.resultSearchController.active {
                 self.foundGifs = gifs
-                self.tableView.reloadData()
             }
         })
         self.loader = loader
+    }
+    
+    private func showDetailsForIndex(index: Int) {
+        let detailedScreen = GifDetailViewController()
+        detailedScreen.gif = activeGifsArray()[index]
+        self.navigationController?.pushViewController(detailedScreen, animated: true)
     }
     
     // MARK: UITableViewDelegate
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return cellHeight
-    }
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let detailedScreen = GifDetailViewController()
-        detailedScreen.gif = activeGifsArray()[indexPath.row]
-        self.navigationController?.pushViewController(detailedScreen, animated: true)
     }
     
     // MARK: UITableViewDataSource
