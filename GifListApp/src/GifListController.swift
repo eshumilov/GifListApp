@@ -107,7 +107,7 @@ class GifListViewController: UIViewController, UITableViewDataSource, UITableVie
         
         if let url = activeGifsArray()[indexPath.row].smallUrl {
             cell.aimatedImageView.sd_cancelCurrentImageLoad()
-            cell.aimatedImageView.sd_setImageWithURL(url)
+            cell.aimatedImageView.sd_setImageWithURL(url, placeholderImage: UIImage(named: "placeholder"))
         }
         return cell
     }

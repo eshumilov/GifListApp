@@ -61,7 +61,7 @@ class GifDetailViewController: UIViewController {
         
         if let gif = self.gif {
             if let url = gif.bigUrl {
-                imageView.sd_setImageWithURL(url)
+                imageView.sd_setImageWithURL(url, placeholderImage: UIImage(named: "placeholder"))
             }
         }
     }
