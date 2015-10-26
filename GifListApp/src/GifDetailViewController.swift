@@ -8,18 +8,20 @@
 
 import UIKit
 import SDWebImage
+import MessageUI
 
 class GifDetailViewController: UIViewController {
     
     var gif: GifDescription?
     private lazy var imageView = UIImageView()
     private lazy var copyButton = UIButton()
+    private lazy var smsButton = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = UIColor.whiteColor()
-        let views = ["imageView": imageView, "copyButton": copyButton]
+        let views = ["imageView": imageView, "copyButton": copyButton, "smsButton": smsButton]
         
         imageView.contentMode = .ScaleAspectFit
         imageView.backgroundColor = UIColor.whiteColor()
@@ -27,17 +29,30 @@ class GifDetailViewController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         copyButton.setTitle("Copy To Clipboard", forState: .Normal)
-        copyButton.addTarget(self, action: "handleButtonClick:", forControlEvents: .TouchUpInside)
+        copyButton.addTarget(self, action: "handleCopyButtonClick:", forControlEvents: .TouchUpInside)
         copyButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
         copyButton.setTitleColor(UIColor.blueColor(), forState: .Highlighted)
         copyButton.backgroundColor = UIColor.grayColor()
         self.view.addSubview(copyButton)
         copyButton.translatesAutoresizingMaskIntoConstraints = false
         
-        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-60-[copyButton(==20)]-10-[imageView]-20-|", options: .AlignAllLeft, metrics: nil, views: views))
-        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-20-[imageView]-20-|", options: .AlignAllLeft, metrics: nil, views: views))
-
-        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("[copyButton(==180)]", options: .AlignAllLeft, metrics: nil, views: views))
+        smsButton.setTitle("Share via SMS", forState: .Normal)
+        smsButton.addTarget(self, action: "handleSMSButtonClick:", forControlEvents: .TouchUpInside)
+        smsButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        smsButton.setTitleColor(UIColor.blueColor(), forState: .Highlighted)
+        smsButton.backgroundColor = UIColor.grayColor()
+        self.view.addSubview(smsButton)
+        smsButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        let metrics = ["buttonTopOffset": 60, "space1": 20, "space2": 10, "buttonWidth": 170, "buttonHeight": 20,]
+        
+        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-buttonTopOffset-[copyButton(==buttonHeight)]-space2-[imageView]-space1-|", options: .AlignAllLeft, metrics: metrics, views: views))
+        
+        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[smsButton(==buttonHeight)]", options: .AlignAllLeft, metrics: metrics, views: views))
+        
+        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-space1-[imageView]-space1-|", options: .AlignAllLeft, metrics: metrics, views: views))
+        
+        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("[copyButton(==buttonWidth)]-[smsButton(==buttonWidth)]", options: .AlignAllLastBaseline, metrics: metrics, views: views))
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -56,9 +71,25 @@ class GifDetailViewController: UIViewController {
         self.navigationController?.navigationBarHidden = true
     }
     
-    @IBAction private func handleButtonClick(sender: UIButton?) {
+    @IBAction private func handleCopyButtonClick(sender: UIButton?) {
         if let gif = self.gif {
             UIPasteboard.generalPasteboard().string = gif.bigUrl?.absoluteString
+        }
+    }
+    
+    @IBAction private func handleSMSButtonClick(sender: UIButton?) {
+        if let gif = self.gif {
+            openMessageControllerWithText(gif.bigUrl?.absoluteString)
+        }
+    }
+    
+    // MARK: SMS
+    
+    func openMessageControllerWithText(text: String?) {
+        if (MFMessageComposeViewController.canSendText()) {
+            let messageComposeViewController = MFMessageComposeViewController()
+            messageComposeViewController.body = text
+            self.presentViewController(messageComposeViewController, animated: true, completion: nil)
         }
     }
     
