@@ -28,4 +28,4 @@ Steps:
 
 [SDWebImage] (https://github.com/rs/SDWebImage) - loading and showing the gifs
 
-[RxSwift] (https://github.com/ReactiveX/RxSwift) - used for performing search requests (TODO: add more reactive code)
+[RxSwift] (https://github.com/ReactiveX/RxSwift) - used for performing search requests (TODO: add more reactive code. For example, found Alomofire extensions https://github.com/ararog/Alamofire-RACExtensions and https://github.com/indragiek/AlamofireRACExtensions)
