@@ -17,6 +17,7 @@ class GifListViewController: UIViewController, UITableViewDataSource, UITableVie
     let cellHeight: CGFloat = 110.0
     var staticGifs: [GifDescription] = []
     var foundGifs: [GifDescription] = []
+    var loader: GifListLoader?
     
     private lazy var tableView = UITableView()
     private lazy var resultSearchController = UISearchController(searchResultsController: nil)
@@ -43,16 +44,14 @@ class GifListViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.tableHeaderView = resultSearchController.searchBar
         
         resultSearchController.searchBar.rx_text
-            .subscribeNext { searchText in
-                GifListLoader().searchItems(searchText, completion: { (gifs: [GifDescription]) -> () in
-                    self.foundGifs = gifs
-                    self.tableView.reloadData()
-                })
+            .subscribeNext { [unowned self] searchText in
+                self.searchWithTerm(searchText)
         }
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
         GifListLoader().getTrendingItems { (gifs: [GifDescription]) -> () in
             self.staticGifs = gifs
             self.tableView.reloadData()
@@ -72,6 +71,17 @@ class GifListViewController: UIViewController, UITableViewDataSource, UITableVie
         else {
             return staticGifs
         }
+    }
+    
+    private func searchWithTerm(term: String) {
+        let loader = GifListLoader()
+        loader.searchItems(term, completion: { (gifs: [GifDescription]) -> () in
+            if loader == self.loader {
+                self.foundGifs = gifs
+                self.tableView.reloadData()
+            }
+        })
+        self.loader = loader
     }
     
     // MARK: UITableViewDelegate
@@ -96,6 +106,7 @@ class GifListViewController: UIViewController, UITableViewDataSource, UITableVie
         let cell :GifListCell = tableView.dequeueReusableCellWithIdentifier(cellID) as! GifListCell
         
         if let url = activeGifsArray()[indexPath.row].smallUrl {
+            cell.aimatedImageView.sd_cancelCurrentImageLoad()
             cell.aimatedImageView.sd_setImageWithURL(url)
         }
         return cell
