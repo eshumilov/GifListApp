@@ -5,13 +5,9 @@ Simple iOS client for service https://github.com/Giphy/GiphyAPI written on Swift
 
 The application uses two endpoints from GiphyAPI:
 
-1. Trending items: http://api.giphy.com/v1/gifs/trending
+Trending items: http://api.giphy.com/v1/gifs/trending (loading 50 items by default)
 
-It loads 50 items by default
-
-2. Search gifs: http://api.giphy.com/v1/gifs/search
-
-It loads 25 items by default
+Search gifs: http://api.giphy.com/v1/gifs/search (loading 25 items by default)
 
 ## Installation
 
@@ -23,3 +19,13 @@ Steps:
 4. Go to project folder and run 'pod install' cocoapods command
 5. Open project workspace and build GifListApp target
 6. Enjoy the gifs!
+
+## Third-party
+
+[Alamofire](https://github.com/Alamofire/Alamofire) - for making requests
+
+[SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON) - for parsing server responses
+
+[SDWebImage] (https://github.com/rs/SDWebImage) - loading and showing the gifs
+
+[RxSwift] (https://github.com/ReactiveX/RxSwift) - used for performing search requests (TODO: add more reactive code)
